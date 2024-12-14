@@ -1,0 +1,79 @@
+version: 2
+
+models:
+
+  - name: core_churn_analysis
+    description: "Consolida o churn rate por país com base em clientes inativos."
+    columns:
+      - name: country
+        description: "País dos clientes."
+        tests:
+          - not_null
+      - name: churned_customers
+        description: "Número de clientes churned (inativos)."
+        tests:
+          - not_null
+      - name: churn_rate
+        description: "Taxa de churn percentual."
+        tests:
+          - not_null
+
+  - name: core_sales_category
+    description: "Consolida receitas e volumes por categoria de produto e período."
+    columns:
+      - name: category_name
+        description: "Nome da categoria de produto."
+        tests:
+          - not_null
+      - name: sales_month
+        description: "Mês das vendas."
+        tests:
+          - not_null
+      - name: total_quantity
+        description: "Quantidade total de produtos vendidos na categoria."
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Receita total gerada pela categoria."
+        tests:
+          - not_null
+
+  - name: core_sales_product
+    description: "Consolida receitas e volumes por produto e período."
+    columns:
+      - name: product_name
+        description: "Nome do produto vendido."
+        tests:
+          - not_null
+      - name: sales_month
+        description: "Mês das vendas."
+        tests:
+          - not_null
+      - name: total_quantity
+        description: "Quantidade total de unidades vendidas do produto."
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Receita total gerada pelo produto."
+        tests:
+          - not_null
+
+  - name: core_ticket_medio
+    description: "Calcula o ticket médio por país e período com base nos pedidos."
+    columns:
+      - name: country
+        description: "País dos clientes."
+        tests:
+          - not_null
+      - name: order_year
+        description: "Data truncada para o ano em que o pedido foi realizado."
+        tests:
+          - not_null
+      - name: order_month
+        description: "Data truncada para o mês em que o pedido foi realizado."
+        tests:
+          - not_null
+      - name: avg_order_value
+        description: "Ticket médio dos pedidos realizados no país e no período."
+        tests:
+          - not_null

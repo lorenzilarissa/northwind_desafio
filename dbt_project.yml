@@ -1,0 +1,13 @@
+name: 'northwind_desafio'
+version: '1.0'
+config-version: 2
+profile: 'northwind_desafio'
+
+models:
+  northwind_desafio:
+    stage:
+      +schema: stage
+      +materialized: view
+    core:
+      +schema: core
+      +materialized: table
