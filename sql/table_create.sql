@@ -150,7 +150,7 @@ CREATE TABLE us_states (
 
 -- TESTE DO CARREGAMENTO (feito via Jupyter)
 
-SELECT * FROM orders LIMIT 10;
+SELECT max(order_date) FROM orders LIMIT 100;
 
 -- DROPS DE TODAS AS 14 TABELAS CASO SEJA NECESSÁRIO
 

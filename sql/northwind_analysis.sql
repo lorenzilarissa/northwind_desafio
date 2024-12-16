@@ -15,27 +15,6 @@ from (
 
 -----------
 
--- Churn Rate
-
-with last_order as (
-select 
-  customer_id
-, max(order_date) as last_order_date
-from orders
-group by customer_id
-)
-select count(customer_id) * 100.0 / 
-	(
-	select count(*) 
-	from customers
-	) as churn_rate
-from last_order
---where last_order_date < current_date - interval '1 year'
-where extract(year from last_order_date) < 1997;
-;
-
------------
-
 -- Qtt sales per year
 
 select 
@@ -107,6 +86,8 @@ order by 1 desc, 3 desc
 -- Quais produtos são mais populares a cada ano.
 -- Isso pode ser útil para entender a demanda por categorias de produtos e definir estratégias de marketing e estoque.
 
+-----------
+
 -- Customer purchase frequency
 
 select
@@ -121,6 +102,8 @@ having count(order_id) > 1
 
 -- Identificação de clientes que compram com frequência, com base nas datas dos primeiros e últimos pedidos.
 -- Isso pode ajudar a identificar os "clientes leais" e os clientes que estão inativos, o que pode ser útil para estratégias de retenção.
+
+-----------
 
 -- Employee performance (sales per employee)
 
@@ -141,6 +124,8 @@ order by 3 desc
 -- A contribuição de cada funcionário para as vendas (com base nos pedidos que cada um gerou).
 -- Isso pode ser útil para medir o desempenho individual e potencialmente ajustar as responsabilidades de vendas.
 
+-----------
+
 -- Sales by region
 
 select 
@@ -158,6 +143,8 @@ order by 2 desc, 3 desc
 
 -- O desempenho de vendas em diferentes regiões, permitindo identificar áreas de alto desempenho e áreas com menor atividade.
 -- Isso pode ser usado para ajustar a alocação de recursos e a estratégia de marketing.
+
+-----------
 
 -- Churn Rate
 
@@ -184,6 +171,8 @@ or b.last_order_date is null
 
 
 -- O percentual de clientes que não realizaram compras no último ano, ajudando a calcular o churn da empresa.
+
+-----------
 
 -- Average delivery time
 
