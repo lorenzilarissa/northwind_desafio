@@ -2,106 +2,78 @@ version: 2
 
 models:
 
-  - name: core_churn_analysis
-    description: "Análise de churn, identificando a taxa de clientes inativos por país e ajudando a focar em retenção de clientes."
+  - name: core_supplier_total_orders
+    description: "Análise de fornecedores quanto ao volume de pedidos atendidos e receita gerada."
     columns:
-      - name: customer_country
-        description: "País dos clientes."
+      - name: supplier_name
+        description: "Nome do fornecedor."
         tests:
           - not_null
-      - name: total_customers
-        description: "Número total de clientes."
+      - name: supplier_country
+        description: "País do fornecedor."
         tests:
           - not_null
-      - name: churned_customers
-        description: "Número de clientes que deixaram de comprar antes de 1998."
-        tests:
-          - not_null
-      - name: active_customers
-        description: "Número de clientes ativos."
-        tests:
-          - not_null
-      - name: churn_rate
-        description: "Taxa de churn percentual."
-        tests:
-          - not_null
+      - name: total_quantity
+        description: "Quantidade total de pedidos atendidos pelo fornecedor."
+      - name: total_revenue
+        description: "Receita total gerada pelos pedidos atendidos pelo fornecedor."
 
-  - name: core_customer_value
-    description: "Análise do valor de cada cliente com base em pedidos, receita total e ticket médio, segmentando clientes por status."
+  - name: core_monthly_revenue
+    description: "Análise mensal de receita e quantidade de pedidos realizados."
     columns:
-      - name: customer_id
-        description: "Identificador único de cada cliente."
+      - name: order_date
+        description: "Data do pedido truncada ao mês."
+        tests:
+          - not_null
+      - name: total_quantity
+        description: "Quantidade total de pedidos realizados no mês."
+      - name: total_revenue
+        description: "Receita total gerada no mês."
+
+  - name: core_ticket_medio_geral
+    description: "Análise do ticket médio geral considerando todos os pedidos."
+    columns:
+      - name: avg_order_value
+        description: "Ticket médio geral."
+
+  - name: core_ticket_medio_by_date
+    description: "Análise do ticket médio por data (mês)."
+    columns:
+      - name: order_date
+        description: "Data do pedido truncada ao mês."
+      - name: avg_order_value
+        description: "Ticket médio no período."
+
+  - name: core_ticket_medio_by_customer
+    description: "Análise do ticket médio por cliente."
+    columns:
+      - name: customer_name
+        description: "Nome do cliente."
         tests:
           - not_null
           - unique
       - name: customer_country
         description: "País do cliente."
-      - name: customer_total_orders
-        description: "Número total de pedidos realizados pelo cliente."
-      - name: customer_total_revenue
-        description: "Receita total gerada pelo cliente."
       - name: customer_avg_order_value
-        description: "Ticket médio por cliente."
-      - name: customer_total_discounts
-        description: "Total de descontos concedidos ao cliente."
-      - name: customer_status
-        description: "Status do cliente (ativo/inativo)."
+        description: "Ticket médio por pedido realizado pelo cliente."
 
-  - name: core_delivery_analysis
-    description: "Análise de desempenho logístico, avaliando tempos e custos de entrega por região e transportadora."
+  - name: core_ticket_medio_by_country
+    description: "Análise do ticket médio por país."
     columns:
-      - name: order_year
-        description: "Ano em que o pedido foi realizado."
-      - name: order_month
-        description: "Mês em que o pedido foi realizado."
-      - name: shipper_name
-        description: "Nome da transportadora."
+      - name: customer_country
+        description: "País do cliente."
         tests:
           - not_null
-      - name: shipment_region
-        description: "Região de envio do pedido."
-      - name: ship_country
-        description: "País de destino da entrega."
-      - name: total_orders
-        description: "Número total de pedidos entregues."
-      - name: late_deliveries
-        description: "Número de entregas atrasadas."
-      - name: avg_delivery_time
-        description: "Tempo médio de entrega (em dias)."
-      - name: avg_delivery_cost
-        description: "Custo médio de entrega."
+      - name: avg_order_value
+        description: "Ticket médio por país."
 
-  - name: core_employee_performance
-    description: "Avaliação de desempenho dos funcionários com base em vendas realizadas e pedidos gerados."
+  - name: core_product_sales
+    description: "Análise de vendas por produto, incluindo quantidade total e receita gerada."
     columns:
-      - name: order_year
-        description: "Ano em que o pedido foi realizado."
-      - name: order_month
-        description: "Mês em que o pedido foi realizado."
-      - name: employee_id
-        description: "Identificador único do funcionário."
+      - name: product_id
+        description: "Identificador único do produto."
         tests:
           - not_null
-      - name: employee_name
-        description: "Nome completo do funcionário."
-      - name: total_sales
-        description: "Receita total gerada pelo funcionário."
-        tests:
-          - not_null
-      - name: total_orders
-        description: "Número total de pedidos gerados pelo funcionário."
-        tests:
-          - not_null
-
-  - name: core_sales_product
-    description: "Análise de vendas por produto e categoria, destacando os produtos e categorias mais vendidos."
-    columns:
-      - name: sales_year
-        description: "Ano da venda."
-      - name: sales_month
-        description: "Mês da venda."
-      - name: category_name
-        description: "Nome da categoria do produto."
       - name: product_name
         description: "Nome do produto."
       - name: total_quantity
@@ -109,52 +81,109 @@ models:
       - name: total_revenue
         description: "Receita total gerada pelo produto."
 
-  - name: core_sales_trends
-    description: "Análise de tendências de vendas, identificando padrões sazonais, ticket médio e crescimento/declínio ao longo do tempo."
+  - name: core_products_sales_by_supplier
+    description: "Análise de vendas por produto e fornecedor, identificando produtos mais vendidos e descontos aplicados."
     columns:
-      - name: sales_year
-        description: "Ano da venda."
-      - name: sales_month
-        description: "Mês da venda."
-      - name: total_sales
-        description: "Receita total gerada no período."
-      - name: total_quantity
-        description: "Quantidade total de produtos vendidos no período."
-      - name: avg_ticket
-        description: "Ticket médio no período."
-
-  - name: core_supplier_analysis
-    description: "Análise de fornecedores, avaliando volume de pedidos atendidos e desempenho em termos de tempo e custo."
-    columns:
-      - name: order_year
-        description: "Ano em que o pedido foi realizado."
-      - name: order_month
-        description: "Mês em que o pedido foi realizado."
+      - name: supplier_id
+        description: "Identificador único do fornecedor."
       - name: supplier_name
         description: "Nome do fornecedor."
-      - name: country
-        description: "País do fornecedor."
-      - name: total_orders_supplied
-        description: "Número total de pedidos atendidos pelo fornecedor."
-      - name: avg_delivery_time
-        description: "Tempo médio de entrega dos pedidos do fornecedor."
-      - name: total_freight_cost
-        description: "Custo total de frete associado ao fornecedor."
+      - name: product_id
+        description: "Identificador único do produto."
+      - name: product_name
+        description: "Nome do produto."
+      - name: total_quantity
+        description: "Quantidade total de produtos vendidos pelo fornecedor."
+      - name: total_revenue
+        description: "Receita total gerada pelos produtos do fornecedor."
+      - name: avg_discount_percentage
+        description: "Porcentagem média de desconto aplicada aos produtos do fornecedor."
 
-  - name: core_ticket_medio
-    description: "Análise do ticket médio por país e período, incluindo o custo médio de frete."
+  - name: core_products_sales_by_date
+    description: "Análise de vendas por produto e mês, destacando sazonalidade."
+    columns:
+      - name: order_date
+        description: "Data do pedido truncada ao mês."
+      - name: product_id
+        description: "Identificador único do produto."
+      - name: product_name
+        description: "Nome do produto."
+      - name: total_quantity
+        description: "Quantidade total de produtos vendidos no mês."
+      - name: total_revenue
+        description: "Receita total gerada pelo produto no mês."
+
+  - name: core_valor_medio_frete_by_country
+    description: "Análise do custo médio de frete por país."
     columns:
       - name: customer_country
         description: "País do cliente."
         tests:
           - not_null
-      - name: order_year
-        description: "Ano do pedido."
-      - name: order_month
-        description: "Mês do pedido."
+      - name: avg_delivery_cost
+        description: "Custo médio de frete por país."
+
+  - name: core_employee_performance_by_title
+    description: "Análise de desempenho por cargo, destacando impacto em vendas e pedidos."
+    columns:
+      - name: employee_title
+        description: "Título ou cargo do funcionário."
       - name: total_orders
-        description: "Número total de pedidos no período."
-      - name: avg_freight_cost
-        description: "Custo médio de frete no período."
+        description: "Quantidade total de pedidos gerados pelo título/cargo."
+      - name: total_revenue
+        description: "Receita total gerada pelo título/cargo."
       - name: avg_order_value
-        description: "Ticket médio no período."
+        description: "Ticket médio gerado por título/cargo."
+
+  - name: core_employee_performance_by_region
+    description: "Análise de desempenho por região de atuação do funcionário."
+    columns:
+      - name: employee_region
+        description: "Região de atuação do funcionário."
+      - name: total_orders
+        description: "Quantidade total de pedidos gerados na região."
+      - name: total_revenue
+        description: "Receita total gerada na região."
+      - name: avg_order_value
+        description: "Ticket médio gerado na região."
+
+  - name: core_employee_performance_by_date
+    description: "Análise de desempenho dos funcionários por mês."
+    columns:
+      - name: order_date
+        description: "Data do pedido truncada ao mês."
+      - name: employee_id
+        description: "Identificador único do funcionário."
+      - name: employee_name
+        description: "Nome completo do funcionário."
+      - name: total_orders
+        description: "Quantidade total de pedidos gerados pelo funcionário no mês."
+      - name: total_revenue
+        description: "Receita total gerada pelo funcionário no mês."
+      - name: avg_order_value
+        description: "Ticket médio gerado pelo funcionário no mês."
+
+  - name: core_employee_performance_by_company_time
+    description: "Análise de desempenho com base no tempo de trabalho do funcionário na empresa."
+    columns:
+      - name: company_time_group
+        description: "Faixa de tempo de trabalho do funcionário na empresa."
+      - name: total_orders
+        description: "Quantidade total de pedidos gerados pelo grupo."
+      - name: total_revenue
+        description: "Receita total gerada pelo grupo."
+      - name: avg_order_value
+        description: "Ticket médio gerado pelo grupo."
+
+  - name: core_employee_performance_by_age
+    description: "Análise de desempenho com base na faixa etária dos funcionários."
+    columns:
+      - name: age_group
+        description: "Faixa etária do funcionário."
+      - name: total_orders
+        description: "Quantidade total de pedidos gerados pela faixa etária."
+      - name: total_revenue
+        description: "Receita total gerada pela faixa etária."
+      - name: avg_order_value
+        description: "Ticket médio gerado pela faixa etária."
+

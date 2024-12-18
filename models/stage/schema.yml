@@ -2,107 +2,90 @@ version: 2
 
 models:
 
-  - name: stg_order_details
-    description: "Tabela intermediária que reúne detalhes de cada pedido, incluindo preço unitário, quantidade, desconto e valor total por item."
-    columns:
-      - name: order_id
-        description: "Identificador único de cada pedido."
-        tests:
-          - not_null
-      - name: product_id
-        description: "Identificador único de cada produto."
-        tests:
-          - not_null
-      - name: unit_price
-        description: "Preço unitário do produto."
-        tests:
-          - not_null
-      - name: quantity
-        description: "Quantidade do produto no pedido."
-        tests:
-          - not_null
-      - name: discount
-        description: "Desconto aplicado ao produto."
-      - name: total_item_value
-        description: "Valor total do item (quantidade x preço unitário - desconto)."
-        tests:
-          - not_null
-
   - name: stg_orders
-    description: "Tabela principal que consolida informações de pedidos, clientes, funcionários, transportadoras e fornecedores."
+    description: "Tabela stage que consolida informações sobre pedidos, incluindo dados do cliente, país de envio e prazos de entrega."
     columns:
       - name: order_id
-        description: "Identificador único de cada pedido."
+        description: "Identificador único do pedido."
         tests:
           - not_null
           - unique
       - name: customer_id
-        description: "Identificador único de cada cliente."
+        description: "Identificador único do cliente que realizou o pedido."
         tests:
           - not_null
+      - name: customer_name
+        description: "Nome do cliente associado ao pedido."
       - name: customer_country
         description: "País do cliente."
       - name: employee_id
-        description: "Identificador único de cada funcionário responsável pelo pedido."
-      - name: employee_name
-        description: "Nome completo do funcionário."
-      - name: employee_title
-        description: "Cargo do funcionário."
-      - name: employee_region
-        description: "Região do funcionário."
-      - name: shipper_name
-        description: "Nome da transportadora responsável pelo pedido."
-        tests:
-          - not_null
-      - name: shipment_region
-        description: "Região de envio do pedido."
-      - name: supplier_name
-        description: "Nome do fornecedor dos produtos do pedido."
-      - name: supplier_country
-        description: "País do fornecedor."
+        description: "Identificador do funcionário responsável pelo pedido."
       - name: order_date
         description: "Data em que o pedido foi realizado."
         tests:
           - not_null
       - name: required_date
-        description: "Data em que o pedido deveria ser entregue."
+        description: "Data esperada para a entrega do pedido."
       - name: shipped_date
         description: "Data em que o pedido foi enviado."
+      - name: shipper_name
+        description: "Nome da transportadora."
       - name: delivery_time
-        description: "Tempo de entrega (dias entre pedido e envio)."
+        description: "Tempo de entrega do pedido (em dias)."
       - name: delivery_cost
-        description: "Custo do frete."
+        description: "Custo de entrega associado ao pedido."
       - name: order_year
         description: "Ano em que o pedido foi realizado."
       - name: order_month
         description: "Mês em que o pedido foi realizado."
 
-  - name: stg_sales
-    description: "Tabela intermediária que reúne informações de vendas, como produtos, categorias, receita e quantidade por mês e ano."
+  - name: stg_order_details
+    description: "Tabela stage que detalha os itens de cada pedido, incluindo informações sobre produtos, preços, quantidades e descontos."
     columns:
-      - name: product_id
-        description: "Identificador único de cada produto."
+      - name: order_id
+        description: "Identificador único do pedido."
         tests:
           - not_null
+      - name: product_id
+        description: "Identificador único do produto."
       - name: product_name
-        description: "Nome do produto vendido."
+        description: "Nome do produto."
+      - name: product_price
+        description: "Preço unitário do produto."
+      - name: product_quantity
+        description: "Quantidade do produto no pedido."
+      - name: product_discount
+        description: "Desconto aplicado ao produto."
+      - name: total_item_value
+        description: "Valor total do item considerando quantidade, preço e desconto."
       - name: category_id
-        description: "Identificador único da categoria do produto."
+        description: "Identificador da categoria do produto."
       - name: category_name
         description: "Nome da categoria do produto."
-      - name: sales_year
-        description: "Ano da venda."
+      - name: supplier_id
+        description: "Identificador único do fornecedor do produto."
+      - name: supplier_name
+        description: "Nome do fornecedor do produto."
+      - name: supplier_country
+        description: "País do fornecedor do produto."
+
+  - name: stg_employees
+    description: "Tabela stage que consolida informações sobre os funcionários, incluindo dados demográficos e profissionais."
+    columns:
+      - name: employee_id
+        description: "Identificador único do funcionário."
         tests:
           - not_null
-      - name: sales_month
-        description: "Mês da venda."
-        tests:
-          - not_null
-      - name: total_quantity
-        description: "Quantidade total de produtos vendidos."
-        tests:
-          - not_null
-      - name: total_revenue
-        description: "Receita total gerada pela venda."
-        tests:
-          - not_null
+          - unique
+      - name: employee_name
+        description: "Nome completo do funcionário."
+      - name: employee_title
+        description: "Título ou cargo do funcionário."
+      - name: employee_country
+        description: "País em que o funcionário trabalha."
+      - name: employee_region
+        description: "Região associada ao funcionário."
+      - name: employee_company_time
+        description: "Tempo de trabalho do funcionário na empresa (em anos)."
+      - name: employee_age
+        description: "Idade do funcionário."
