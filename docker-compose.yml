@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  postgres-northwind:
+    image: postgres
+    container_name: postgres-northwind
+    environment:
+      POSTGRES_DB: northwind
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: lariihh22
+    ports:
+      - "5433:5432"
+
+  superset:
+    image: apache/superset
+    container_name: superset
+    environment:
+      SUPERSET_LOAD_EXAMPLES: "yes"
+      SUPERSET_SECRET_KEY: "thisISaSECRET_1234"
+    ports:
+      - "8088:8088"
+    depends_on:
+      - postgres-northwind
