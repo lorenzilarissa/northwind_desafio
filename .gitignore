@@ -129,6 +129,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+northwind_env/  # Adicionado para ignorar o ambiente virtual
 
 # Spyder project settings
 .spyderproject
