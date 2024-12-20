@@ -25,7 +25,7 @@ O projeto foi estruturado para:
 ---
 
 ## 🚀 **Estrutura do Projeto**
-- **Dados Brutos**: Arquivos CSV da Northwind Traders (ERP).
+- **Dados Brutos**: Arquivos CSV da Northwind (ERP).
 - **Transformação**: Realizada em duas camadas:
   - **Stage**: Dados tratados e padronizados.
   - **Core**: Dados transformados para análises específicas.
@@ -185,7 +185,7 @@ O dashboard consolidado permite uma visão holística da Northwind.
 ---
 
 ## 🏆 **Conclusão**
-O projeto entregou uma análise robusta e estruturada, facilitando decisões estratégicas para a Northwind Traders, com foco em:
+O projeto entregou uma análise robusta e estruturada, facilitando decisões estratégicas para a Northwind, com foco em:
 - Reduzir a taxa de churn.
 - Aumentar o ticket médio.
 - Melhorar a eficiência operacional e logística.
